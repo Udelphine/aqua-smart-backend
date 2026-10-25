@@ -8,6 +8,7 @@ import auca.ac.aquasmart.model.RunStatus;
 import auca.ac.aquasmart.repository.FarmZoneRepository;
 import auca.ac.aquasmart.repository.IrrigationRunRepository;
 import auca.ac.aquasmart.repository.IrrigationValveRepository;
+import auca.ac.aquasmart.repository.SoilReadingRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -22,21 +23,26 @@ public class IrrigationRunService {
     private final IrrigationRunRepository irrigationRunRepository;
     private final FarmZoneRepository farmZoneRepository;
     private final IrrigationValveRepository irrigationValveRepository;
+    private final SoilReadingRepository soilReadingRepository;
 
     public IrrigationRunService(
-            IrrigationRunRepository irrigationRunRepository,
-            FarmZoneRepository farmZoneRepository,
-            IrrigationValveRepository irrigationValveRepository) {
+        IrrigationRunRepository irrigationRunRepository,
+        FarmZoneRepository farmZoneRepository,
+        IrrigationValveRepository irrigationValveRepository,
+        SoilReadingRepository soilReadingRepository) {
 
-        this.irrigationRunRepository =
-                irrigationRunRepository;
+    this.irrigationRunRepository =
+            irrigationRunRepository;
 
-        this.farmZoneRepository =
-                farmZoneRepository;
+    this.farmZoneRepository =
+            farmZoneRepository;
 
-        this.irrigationValveRepository =
-                irrigationValveRepository;
-    }
+    this.irrigationValveRepository =
+            irrigationValveRepository;
+
+    this.soilReadingRepository =
+            soilReadingRepository;
+}
 
     public String save(IrrigationRun irrigationRun) {
 
@@ -245,19 +251,32 @@ public class IrrigationRunService {
 
     public String delete(UUID id) {
 
-        Optional<IrrigationRun> irrigationRunData =
-                irrigationRunRepository.findById(id);
+    Optional<IrrigationRun> irrigationRunData =
+            irrigationRunRepository.findById(id);
 
-        if (irrigationRunData.isEmpty()) {
-            return "The irrigation run with that id does not exist";
-        }
-
-        irrigationRunRepository.delete(
-                irrigationRunData.get()
-        );
-
-        return "Irrigation run deleted successfully";
+    if (irrigationRunData.isEmpty()) {
+        return "The irrigation run with that id does not exist";
     }
+
+    IrrigationRun irrigationRun =
+            irrigationRunData.get();
+
+    boolean hasSoilReadings =
+            soilReadingRepository
+                    .existsByIrrigationRun(
+                            irrigationRun
+                    );
+
+    if (hasSoilReadings) {
+        return "That irrigation run has soil readings, delete them first";
+    }
+
+    irrigationRunRepository.delete(
+            irrigationRun
+    );
+
+    return "Irrigation run deleted successfully";
+}
 
     public List<IrrigationRun> findByStatus(
             RunStatus status) {

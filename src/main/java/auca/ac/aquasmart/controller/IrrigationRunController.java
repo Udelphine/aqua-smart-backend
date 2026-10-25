@@ -163,24 +163,32 @@ public class IrrigationRunController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(
-            @PathVariable UUID id) {
+public ResponseEntity<String> delete(
+        @PathVariable UUID id) {
 
-        String message =
-                irrigationRunService.delete(
-                        id
-                );
+    String message =
+            irrigationRunService.delete(
+                    id
+            );
 
-        if (message.equals(
-                "The irrigation run with that id does not exist")) {
+    if (message.equals(
+            "The irrigation run with that id does not exist")) {
 
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(message);
-        }
-
-        return ResponseEntity.ok(
-                message
-        );
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(message);
     }
+
+    if (message.equals(
+            "That irrigation run has soil readings, delete them first")) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(message);
+    }
+
+    return ResponseEntity.ok(
+            message
+    );
+}
 }
