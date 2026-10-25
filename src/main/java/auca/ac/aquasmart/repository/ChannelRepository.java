@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ChannelRepository extends JpaRepository<Channel, UUID> {
@@ -15,4 +16,8 @@ public interface ChannelRepository extends JpaRepository<Channel, UUID> {
            "SELECT iv FROM IrrigationValve iv WHERE iv.channel = c" +
            ") ORDER BY c.channelNumber")
     List<Channel> findFreeChannels();
+
+    Optional<Channel> findByChannelNumber(
+            int channelNumber
+    );
 }

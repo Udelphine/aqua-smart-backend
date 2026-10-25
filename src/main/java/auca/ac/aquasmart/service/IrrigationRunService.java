@@ -4,6 +4,7 @@ import auca.ac.aquasmart.model.FarmZone;
 import auca.ac.aquasmart.model.IrrigationRun;
 import auca.ac.aquasmart.model.IrrigationValve;
 import auca.ac.aquasmart.model.RunStatus;
+
 import auca.ac.aquasmart.repository.FarmZoneRepository;
 import auca.ac.aquasmart.repository.IrrigationRunRepository;
 import auca.ac.aquasmart.repository.IrrigationValveRepository;
@@ -39,15 +40,39 @@ public class IrrigationRunService {
 
     public String save(IrrigationRun irrigationRun) {
 
+        if (irrigationRun.getRunDate()
+                .isBefore(LocalDate.now())) {
+
+            return "Irrigation run date cannot be in the past";
+        }
+
+        UUID irrigationValveId =
+                irrigationRun
+                        .getIrrigationValve()
+                        .getId();
+
+        boolean alreadyExists =
+                irrigationRunRepository
+                        .existsByIrrigationValveIdAndRunDateAndStatusNot(
+                                irrigationValveId,
+                                irrigationRun.getRunDate(),
+                                RunStatus.ABORTED
+                        );
+
+        if (alreadyExists) {
+            return "Valve already has an irrigation run on that date";
+        }
+
         irrigationRun.setId(null);
 
         if (irrigationRun.getFarmZone() != null) {
 
-            UUID farmZoneId =
-                    irrigationRun.getFarmZone().getId();
-
             Optional<FarmZone> farmZoneData =
-                    farmZoneRepository.findById(farmZoneId);
+                    farmZoneRepository.findById(
+                            irrigationRun
+                                    .getFarmZone()
+                                    .getId()
+                    );
 
             if (farmZoneData.isPresent()) {
                 irrigationRun.setFarmZone(
@@ -57,9 +82,6 @@ public class IrrigationRunService {
         }
 
         if (irrigationRun.getIrrigationValve() != null) {
-
-            UUID irrigationValveId =
-                    irrigationRun.getIrrigationValve().getId();
 
             Optional<IrrigationValve> irrigationValveData =
                     irrigationValveRepository.findById(
@@ -73,6 +95,10 @@ public class IrrigationRunService {
             }
         }
 
+        irrigationRun.setStatus(
+                RunStatus.QUEUED
+        );
+
         irrigationRunRepository.save(
                 irrigationRun
         );
@@ -81,11 +107,16 @@ public class IrrigationRunService {
     }
 
     public List<IrrigationRun> getAll() {
+
         return irrigationRunRepository.findAll();
     }
 
-    public Optional<IrrigationRun> getById(UUID id) {
-        return irrigationRunRepository.findById(id);
+    public Optional<IrrigationRun> getById(
+            UUID id) {
+
+        return irrigationRunRepository.findById(
+                id
+        );
     }
 
     public String update(
@@ -104,10 +135,6 @@ public class IrrigationRunService {
 
         irrigationRun.setRunDate(
                 details.getRunDate()
-        );
-
-        irrigationRun.setStatus(
-                details.getStatus()
         );
 
         irrigationRun.setWaterVolume(
@@ -136,7 +163,9 @@ public class IrrigationRunService {
 
             Optional<IrrigationValve> irrigationValveData =
                     irrigationValveRepository.findById(
-                            details.getIrrigationValve().getId()
+                            details
+                                    .getIrrigationValve()
+                                    .getId()
                     );
 
             if (irrigationValveData.isPresent()) {
@@ -151,6 +180,67 @@ public class IrrigationRunService {
         );
 
         return "Irrigation run updated successfully";
+    }
+
+    public String changeStatus(
+            UUID id,
+            RunStatus newStatus) {
+
+        Optional<IrrigationRun> irrigationRunData =
+                irrigationRunRepository.findById(id);
+
+        if (irrigationRunData.isEmpty()) {
+            return "The irrigation run with that id does not exist";
+        }
+
+        IrrigationRun irrigationRun =
+                irrigationRunData.get();
+
+        RunStatus currentStatus =
+                irrigationRun.getStatus();
+
+        boolean allowed = false;
+
+        if (currentStatus == RunStatus.QUEUED
+                && newStatus == RunStatus.RUNNING) {
+
+            allowed = true;
+        }
+
+        if (currentStatus == RunStatus.QUEUED
+                && newStatus == RunStatus.ABORTED) {
+
+            allowed = true;
+        }
+
+        if (currentStatus == RunStatus.RUNNING
+                && newStatus == RunStatus.FINISHED) {
+
+            allowed = true;
+        }
+
+        if (currentStatus == RunStatus.RUNNING
+                && newStatus == RunStatus.ABORTED) {
+
+            allowed = true;
+        }
+
+        if (!allowed) {
+            return "Cannot change status from "
+                    + currentStatus
+                    + " to "
+                    + newStatus;
+        }
+
+        irrigationRun.setStatus(
+                newStatus
+        );
+
+        irrigationRunRepository.save(
+                irrigationRun
+        );
+
+        return "Irrigation run status updated successfully";
     }
 
     public String delete(UUID id) {
@@ -168,18 +258,24 @@ public class IrrigationRunService {
 
         return "Irrigation run deleted successfully";
     }
-    public List<IrrigationRun> findByStatus(RunStatus status) {
-    return irrigationRunRepository
-            .findByStatusOrderByRunDateAsc(status);
-}
-public List<IrrigationRun> findBetween(
-        LocalDate start,
-        LocalDate end) {
 
-    return irrigationRunRepository
-            .findByRunDateBetweenOrderByRunDateAsc(
-                    start,
-                    end
-            );
-}
+    public List<IrrigationRun> findByStatus(
+            RunStatus status) {
+
+        return irrigationRunRepository
+                .findByStatusOrderByRunDateAsc(
+                        status
+                );
+    }
+
+    public List<IrrigationRun> findBetween(
+            LocalDate start,
+            LocalDate end) {
+
+        return irrigationRunRepository
+                .findByRunDateBetweenOrderByRunDateAsc(
+                        start,
+                        end
+                );
+    }
 }

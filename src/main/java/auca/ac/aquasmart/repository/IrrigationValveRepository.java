@@ -1,5 +1,6 @@
 package auca.ac.aquasmart.repository;
 
+import auca.ac.aquasmart.model.Channel;
 import auca.ac.aquasmart.model.IrrigationValve;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +16,9 @@ public interface IrrigationValveRepository extends JpaRepository<IrrigationValve
            "WHERE LOWER(ws.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     List<IrrigationValve> findByWaterSourceName(
             @Param("name") String name
+    );
+
+    boolean existsByChannel(
+            Channel channel
     );
 }

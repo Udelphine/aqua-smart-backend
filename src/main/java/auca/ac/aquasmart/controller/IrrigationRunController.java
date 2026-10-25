@@ -35,6 +35,22 @@ public class IrrigationRunController {
                         irrigationRun
                 );
 
+        if (message.equals(
+                "Irrigation run date cannot be in the past")) {
+
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(message);
+        }
+
+        if (message.equals(
+                "Valve already has an irrigation run on that date")) {
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(message);
+        }
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(message);
@@ -42,34 +58,67 @@ public class IrrigationRunController {
 
     @GetMapping("/all")
     public List<IrrigationRun> getAll() {
+
         return irrigationRunService.getAll();
     }
 
-@GetMapping("/by-status")
-public List<IrrigationRun> findByStatus(
-        @RequestParam RunStatus status) {
+    @GetMapping("/by-status")
+    public List<IrrigationRun> findByStatus(
+            @RequestParam RunStatus status) {
 
-    return irrigationRunService.findByStatus(
-            status
-    );
-}
+        return irrigationRunService.findByStatus(
+                status
+        );
+    }
 
-@GetMapping("/between")
-public List<IrrigationRun> findBetween(
-        @RequestParam String start,
-        @RequestParam String end) {
+    @GetMapping("/between")
+    public List<IrrigationRun> findBetween(
+            @RequestParam String start,
+            @RequestParam String end) {
 
-    LocalDate startDate =
-            LocalDate.parse(start);
+        LocalDate startDate =
+                LocalDate.parse(start);
 
-    LocalDate endDate =
-            LocalDate.parse(end);
+        LocalDate endDate =
+                LocalDate.parse(end);
 
-    return irrigationRunService.findBetween(
-            startDate,
-            endDate
-    );
-}
+        return irrigationRunService.findBetween(
+                startDate,
+                endDate
+        );
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> changeStatus(
+            @PathVariable UUID id,
+            @RequestParam RunStatus status) {
+
+        String message =
+                irrigationRunService.changeStatus(
+                        id,
+                        status
+                );
+
+        if (message.equals(
+                "The irrigation run with that id does not exist")) {
+
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(message);
+        }
+
+        if (message.startsWith(
+                "Cannot change status")) {
+
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(message);
+        }
+
+        return ResponseEntity.ok(
+                message
+        );
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(
@@ -108,7 +157,9 @@ public List<IrrigationRun> findBetween(
                     .body(message);
         }
 
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(
+                message
+        );
     }
 
     @DeleteMapping("/delete/{id}")
@@ -116,7 +167,9 @@ public List<IrrigationRun> findBetween(
             @PathVariable UUID id) {
 
         String message =
-                irrigationRunService.delete(id);
+                irrigationRunService.delete(
+                        id
+                );
 
         if (message.equals(
                 "The irrigation run with that id does not exist")) {
@@ -126,6 +179,8 @@ public List<IrrigationRun> findBetween(
                     .body(message);
         }
 
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(
+                message
+        );
     }
 }
