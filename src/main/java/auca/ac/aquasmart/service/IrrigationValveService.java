@@ -125,4 +125,8 @@ public class IrrigationValveService {
 
         return "Irrigation valve deleted successfully";
     }
+    public List<IrrigationValve> findByWaterSourceName(String name) {
+    return irrigationValveRepository
+            .findByWaterSourceName(name);
+}
 }

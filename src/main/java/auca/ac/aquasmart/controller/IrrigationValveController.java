@@ -42,6 +42,13 @@ public class IrrigationValveController {
     public List<IrrigationValve> getAll() {
         return irrigationValveService.getAll();
     }
+    @GetMapping("/by-water-source")
+public List<IrrigationValve> findByWaterSourceName(
+        @RequestParam String name) {
+
+    return irrigationValveService
+            .findByWaterSourceName(name);
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(

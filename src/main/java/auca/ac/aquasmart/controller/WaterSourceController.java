@@ -40,6 +40,10 @@ public class WaterSourceController {
     public List<WaterSource> getAll() {
         return waterSourceService.getAll();
     }
+    @GetMapping("/unused")
+public List<WaterSource> getUnusedWaterSources() {
+    return waterSourceService.getUnusedWaterSources();
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(

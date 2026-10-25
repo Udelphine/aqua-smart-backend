@@ -69,4 +69,7 @@ public class ChannelService {
 
         return "Channel deleted successfully";
     }
+    public List<Channel> getFreeChannels() {
+    return channelRepository.findFreeChannels();
+}
 }

@@ -29,7 +29,9 @@ public class FarmZoneController {
             @RequestBody FarmZone farmZone) {
 
         String message =
-                farmZoneService.save(farmZone);
+                farmZoneService.save(
+                        farmZone
+                );
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -38,17 +40,38 @@ public class FarmZoneController {
 
     @GetMapping("/all")
     public List<FarmZone> getAll() {
+
         return farmZoneService.getAll();
     }
-    
-    @GetMapping("/by-crop-type")
-public List<FarmZone> findByCropType(
-        @RequestParam String cropType) {
 
-    return farmZoneService.findByCropType(
-            cropType
-    );
-}
+    @GetMapping("/by-crop-type")
+    public List<FarmZone> findByCropType(
+            @RequestParam String cropType) {
+
+        return farmZoneService.findByCropType(
+                cropType
+        );
+    }
+
+    @GetMapping("/of-irrigation-valve/{irrigationValveId}")
+    public ResponseEntity<?> findFarmZonesOfIrrigationValve(
+            @PathVariable UUID irrigationValveId) {
+
+        if (!farmZoneService.irrigationValveExists(
+                irrigationValveId)) {
+
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("The irrigation valve with that id does not exist");
+        }
+
+        return ResponseEntity.ok(
+                farmZoneService
+                        .findFarmZonesOfIrrigationValve(
+                                irrigationValveId
+                        )
+        );
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(
@@ -87,7 +110,9 @@ public List<FarmZone> findByCropType(
                     .body(message);
         }
 
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(
+                message
+        );
     }
 
     @DeleteMapping("/delete/{id}")
@@ -95,7 +120,9 @@ public List<FarmZone> findByCropType(
             @PathVariable UUID id) {
 
         String message =
-                farmZoneService.delete(id);
+                farmZoneService.delete(
+                        id
+                );
 
         if (message.equals(
                 "The farm zone with that id does not exist")) {
@@ -105,6 +132,8 @@ public List<FarmZone> findByCropType(
                     .body(message);
         }
 
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(
+                message
+        );
     }
 }

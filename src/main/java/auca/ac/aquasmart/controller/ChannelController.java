@@ -40,6 +40,10 @@ public class ChannelController {
     public List<Channel> getAll() {
         return channelService.getAll();
     }
+    @GetMapping("/free")
+public List<Channel> getFreeChannels() {
+    return channelService.getFreeChannels();
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(

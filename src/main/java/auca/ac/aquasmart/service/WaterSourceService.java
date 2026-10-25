@@ -63,4 +63,7 @@ public class WaterSourceService {
 
         return "Water source deleted successfully";
     }
+    public List<WaterSource> getUnusedWaterSources() {
+    return waterSourceRepository.findUnusedWaterSources();
+}
 }
