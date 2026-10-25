@@ -1,12 +1,14 @@
 package auca.ac.aquasmart.controller;
 
 import auca.ac.aquasmart.model.IrrigationRun;
+import auca.ac.aquasmart.model.RunStatus;
 import auca.ac.aquasmart.service.IrrigationRunService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,6 +44,32 @@ public class IrrigationRunController {
     public List<IrrigationRun> getAll() {
         return irrigationRunService.getAll();
     }
+
+@GetMapping("/by-status")
+public List<IrrigationRun> findByStatus(
+        @RequestParam RunStatus status) {
+
+    return irrigationRunService.findByStatus(
+            status
+    );
+}
+
+@GetMapping("/between")
+public List<IrrigationRun> findBetween(
+        @RequestParam String start,
+        @RequestParam String end) {
+
+    LocalDate startDate =
+            LocalDate.parse(start);
+
+    LocalDate endDate =
+            LocalDate.parse(end);
+
+    return irrigationRunService.findBetween(
+            startDate,
+            endDate
+    );
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(

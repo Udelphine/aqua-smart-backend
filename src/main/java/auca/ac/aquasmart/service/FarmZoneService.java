@@ -77,4 +77,8 @@ public class FarmZoneService {
 
         return "Farm zone deleted successfully";
     }
+    public List<FarmZone> findByCropType(String cropType) {
+    return farmZoneRepository
+            .findByCropTypeIgnoreCaseOrderByZoneNameAsc(cropType);
+}
 }

@@ -3,12 +3,14 @@ package auca.ac.aquasmart.service;
 import auca.ac.aquasmart.model.FarmZone;
 import auca.ac.aquasmart.model.IrrigationRun;
 import auca.ac.aquasmart.model.IrrigationValve;
+import auca.ac.aquasmart.model.RunStatus;
 import auca.ac.aquasmart.repository.FarmZoneRepository;
 import auca.ac.aquasmart.repository.IrrigationRunRepository;
 import auca.ac.aquasmart.repository.IrrigationValveRepository;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -166,4 +168,18 @@ public class IrrigationRunService {
 
         return "Irrigation run deleted successfully";
     }
+    public List<IrrigationRun> findByStatus(RunStatus status) {
+    return irrigationRunRepository
+            .findByStatusOrderByRunDateAsc(status);
+}
+public List<IrrigationRun> findBetween(
+        LocalDate start,
+        LocalDate end) {
+
+    return irrigationRunRepository
+            .findByRunDateBetweenOrderByRunDateAsc(
+                    start,
+                    end
+            );
+}
 }

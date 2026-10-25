@@ -1,4 +1,4 @@
-package auca.ac.aqua_smart;
+package auca.ac.aquasmart;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

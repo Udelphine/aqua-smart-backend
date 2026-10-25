@@ -40,6 +40,15 @@ public class FarmZoneController {
     public List<FarmZone> getAll() {
         return farmZoneService.getAll();
     }
+    
+    @GetMapping("/by-crop-type")
+public List<FarmZone> findByCropType(
+        @RequestParam String cropType) {
+
+    return farmZoneService.findByCropType(
+            cropType
+    );
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(
