@@ -119,6 +119,30 @@ public class IrrigationRunController {
                 message
         );
     }
+    @GetMapping("/stats/by-status")
+public List<Object[]> getStatsByStatus() {
+
+    return irrigationRunService
+            .getStatsByStatus();
+}
+@PatchMapping("/cancel-day")
+public ResponseEntity<String> cancelDay(
+        @RequestParam UUID irrigationValveId,
+        @RequestParam String date) {
+
+    LocalDate runDate =
+            LocalDate.parse(date);
+
+    String message =
+            irrigationRunService.cancelDay(
+                    irrigationValveId,
+                    runDate
+            );
+
+    return ResponseEntity.ok(
+            message
+    );
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(

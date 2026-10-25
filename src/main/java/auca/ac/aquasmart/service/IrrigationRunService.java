@@ -297,4 +297,23 @@ public class IrrigationRunService {
                         end
                 );
     }
+    public List<Object[]> getStatsByStatus() {
+
+    return irrigationRunRepository
+            .countIrrigationRunsByStatus();
+}
+public String cancelDay(
+        UUID irrigationValveId,
+        LocalDate date) {
+
+    int cancelled =
+            irrigationRunRepository
+                    .cancelRunsForDay(
+                            irrigationValveId,
+                            date
+                    );
+
+    return cancelled
+            + " irrigation runs cancelled";
+}
 }
