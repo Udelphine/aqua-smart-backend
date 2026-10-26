@@ -1,0 +1,514 @@
+{
+  "info": {
+    "_postman_id": "44234052-ad2c-48fa-90f2-871b3b82aa0d",
+    "name": "aqua-smart-midterm",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58434053"
+  },
+  "item": [
+    {
+      "name": "A2",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Rainwater Tank\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/water-sources/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "water-sources",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/farm-zones/by-crop-type?cropType=tomatoes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "farm-zones",
+            "by-crop-type"
+          ],
+          "query": [
+            {
+              "key": "cropType",
+              "value": "tomatoes"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-runs/by-status?status=QUEUED",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-runs",
+            "by-status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "QUEUED"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-runs/between?start=2026-10-01&end=2026-10-31",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-runs",
+            "between"
+          ],
+          "query": [
+            {
+              "key": "start",
+              "value": "2026-10-01"
+            },
+            {
+              "key": "end",
+              "value": "2026-10-31"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-valves/by-water-source?name=bore",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-valves",
+            "by-water-source"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "bore"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/channels/free",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "channels",
+            "free"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/water-sources/unused",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "water-sources",
+            "unused"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/farm-zones/of-irrigation-valve/8d0e22a1-c9e3-462c-834f-18c08089d726",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "farm-zones",
+            "of-irrigation-valve",
+            "8d0e22a1-c9e3-462c-834f-18c08089d726"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D1",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"runDate\": \"2026-12-20\",\r\n  \"status\": \"FINISHED\",\r\n  \"waterVolume\": 100.0,\r\n  \"moistureBefore\": 40.0,\r\n  \"farmZone\": {\r\n    \"id\": \"74efbd21-efab-40b5-b906-c5360a7eace4\",\r\n    \"zoneName\": \"North Field\",\r\n    \"cropType\": \"Tomatoes\",\r\n    \"zoneCode\": \"NF-A\",\r\n    \"optimalMoisture\": 65.0\r\n  },\r\n  \"irrigationValve\": {\r\n    \"id\": \"8d0e22a1-c9e3-462c-834f-18c08089d726\",\r\n    \"label\": \"North Valve\",\r\n    \"model\": \"AquaFlow X1\",\r\n    \"flowRate\": 12.5,\r\n    \"channel\": {\r\n      \"id\": \"e62fbe01-6dea-49ad-9e4d-1ba5f78930a1\",\r\n      \"channelNumber\": 1,\r\n      \"name\": \"Channel One\"\r\n    },\r\n    \"waterSources\": []\r\n  }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-runs/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-runs",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-runs/dd4f2de2-3a71-4ebe-aa3d-8b9d01300b2c/status?status=RUNNING",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-runs",
+            "dd4f2de2-3a71-4ebe-aa3d-8b9d01300b2c",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "RUNNING"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D3",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-valves/eab408c7-9177-4e53-a814-c8ae1ef796dd/water-sources/0b58f743-0562-4f8a-a714-c0f39e3bb7d7",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-valves",
+            "eab408c7-9177-4e53-a814-c8ae1ef796dd",
+            "water-sources",
+            "0b58f743-0562-4f8a-a714-c0f39e3bb7d7"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D4",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-valves/eab408c7-9177-4e53-a814-c8ae1ef796dd/channel?channelNumber=4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-valves",
+            "eab408c7-9177-4e53-a814-c8ae1ef796dd",
+            "channel"
+          ],
+          "query": [
+            {
+              "key": "channelNumber",
+              "value": "4"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E1",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"sensorName\": \"Sensor A1\",\r\n  \"observation\": \"Soil moisture improved after irrigation\",\r\n  \"moisturePercent\": 68\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/soil-readings/save?irrigationRunId=0a303b93-d2b2-4356-a8de-302b42b59bb9",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "soil-readings",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "irrigationRunId",
+              "value": "0a303b93-d2b2-4356-a8de-302b42b59bb9"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/soil-readings/farm-zone/NF-A",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "soil-readings",
+            "farm-zone",
+            "NF-A"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E3",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/soil-readings/delete/720910d3-5d36-4c3a-b930-3e85e0f3acf1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "soil-readings",
+            "delete",
+            "720910d3-5d36-4c3a-b930-3e85e0f3acf1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "F1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-runs/stats/by-status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-runs",
+            "stats",
+            "by-status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "F2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-runs/cancel-day?irrigationValveId=8d0e22a1-c9e3-462c-834f-18c08089d726&date=2026-12-22",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-runs",
+            "cancel-day"
+          ],
+          "query": [
+            {
+              "key": "irrigationValveId",
+              "value": "8d0e22a1-c9e3-462c-834f-18c08089d726"
+            },
+            {
+              "key": "date",
+              "value": "2026-12-22"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bonus1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/dashboard/summary",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "dashboard",
+            "summary"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bonus2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/irrigation-runs/page?page=0&size=5&sort=runDate,desc",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "irrigation-runs",
+            "page"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            },
+            {
+              "key": "sort",
+              "value": "runDate,desc"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
