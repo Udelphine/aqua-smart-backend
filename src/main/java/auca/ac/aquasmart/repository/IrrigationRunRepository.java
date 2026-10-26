@@ -14,6 +14,10 @@ import java.util.UUID;
 
 public interface IrrigationRunRepository extends JpaRepository<IrrigationRun, UUID> {
 
+    long countByRunDate(LocalDate runDate);
+
+    long countByStatus(RunStatus status);
+
     List<IrrigationRun> findByStatusOrderByRunDateAsc(
             RunStatus status
     );

@@ -7,6 +7,10 @@ import auca.ac.aquasmart.service.IrrigationRunService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -142,6 +146,46 @@ public ResponseEntity<String> cancelDay(
     return ResponseEntity.ok(
             message
     );
+}
+@GetMapping("/page")
+public Page<IrrigationRun> getPage(
+        @RequestParam int page,
+        @RequestParam int size,
+        @RequestParam String sort) {
+
+    String[] sortParts =
+            sort.split(",");
+
+    String field =
+            sortParts[0];
+
+    String direction =
+            sortParts[1];
+
+    Sort sorting;
+
+    if (direction.equalsIgnoreCase("desc")) {
+
+        sorting =
+                Sort.by(field).descending();
+
+    } else {
+
+        sorting =
+                Sort.by(field).ascending();
+    }
+
+    Pageable pageable =
+            PageRequest.of(
+                    page,
+                    size,
+                    sorting
+            );
+
+    return irrigationRunService
+            .getPage(
+                    pageable
+            );
 }
 
     @GetMapping("/{id}")
